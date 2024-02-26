@@ -66,6 +66,8 @@ pasting above link (or yours) in
 
 # Introduction
 
+こんにちはこんにちは！
+
 As part of the one week Biohackathion 2019 in Fukuoka Japan, we formed
 a working group on logic programming for the biomedical sciences.
 Logic programming is understood by many bioinformaticians when it is
