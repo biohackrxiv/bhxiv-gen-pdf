@@ -198,6 +198,8 @@ cmd = <<COMMAND
       --from markdown+autolink_bare_uris
       --template '#{TEX}'
       --no-check-certificate
+      --pdf-engine lualatex
+      -V documentclass=ltjarticle
       --csl=#{CSL}
       --lua-filter='#{EXTRACT_CITO}'
       #{ ( paperbib ? "--citeproc" : "") }
