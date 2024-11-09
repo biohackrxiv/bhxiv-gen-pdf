@@ -383,7 +383,7 @@ $endif$
 % ORCID support
 
 \definecolor{orcidlogocol}{HTML}{A6CE39}
-\newcommand{\orcidlink}[1]{\protect\href{https://orcid.org/#1}{\small\textcolor{orcidlogocol}{\faOrcid}}}
+\newcommand{\orcidlink}[1]{\protect\href{https://orcid.org/#1}{\,\small\textcolor{orcidlogocol}{\faOrcid}\,}}
 
 $if(authors)$
   $for(authors)$
