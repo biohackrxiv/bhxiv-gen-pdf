@@ -7,6 +7,7 @@ authors:
   - name: Chris Mungall
     orcid: 0000-0002-6601-2165
     affiliation: 1
+    role: Writing
   - name: Hirokazu Chiba
     affiliation: 2
     orcid: 0000-0003-4062-8903
