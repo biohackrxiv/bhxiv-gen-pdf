@@ -523,6 +523,15 @@ $if(biblatex)$
 $endif$
 $for(include-after)$
 $include-after$
-
 $endfor$
+
+$if(authors)$
+\subsection*{Author contributions}
+  $for(authors)$
+  $if(authors.role)$
+    $authors.name$:\,$authors.role$
+  $endif$
+  $endfor$
+$endif$
+
 \end{document}
