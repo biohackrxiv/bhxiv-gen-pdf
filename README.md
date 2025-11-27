@@ -1,92 +1,53 @@
-# Generate PDF for BioHackrXiv.org
+# Generate a PDF for BioHackrXiv.org
 
-We use pandoc with LaTeX templates to generate the PDF from markdown
-that can be submitted to https://biohackrxiv.org/. Note we also have
-an online tool that can do same http://preview.biohackrxiv.org/.
+This CLI tool generates PDF files complying with the specifications for [biohackrxiv.org](https://biohackrxiv.org/).
+The PDF is generated using [pandoc](https://pandoc.org/) with LaTeX templates starting from a markdown (MD) file.
+The PDF can then be uploaded to [biohackrxiv.org](https://biohackrxiv.org/).
 
-# Quick start
-
-BioHackrXiv use [pandoc flavored markdown](https://pandoc.org/MANUAL.html#pandocs-markdown). It is very simple. See
-
-=> https://github.com/biohackrxiv/bhxiv-gen-pdf/blob/master/example/logic/paper.md
-
-and the raw text version
-
-=> https://raw.githubusercontent.com/biohackrxiv/bhxiv-gen-pdf/master/example/logic/paper.md
-
-It *can* embed LaTeX because pandoc generates LaTeX from markdown as an intermediate step towards generating the final PDF.
-
-The easiest start is to take the files in ./example/doc and modify them. Don't change the file names as they are used to generate the final paper. In fact, you can copy these files into your own git repo and continue from there.
-
-We have a web interface that allows you to generate the PDF at
-
-=> http://preview.biohackrxiv.org/
-
-Paste in the base URL for your repo and the tool will find the paper.md.
-
-Notes:
-
-1. Do not paste the path to the paper itself - only the base repo URL.
-2. One repo can not contain multiple paper.md's. It will pick the first one it finds.
-3. For biohackathons it pays to add a template repo people can template from, e.g
-
-=> https://github.com/biohackrxiv/publication-template
-
-# Introduction
-
+**NOTE:** alternatively you could generate the PDF using the [web-based upload tool](http://preview.biohackrxiv.org/).
 
 # Quick start
 
-BioHackrXiv use [pandoc flavored markdown](https://pandoc.org/MANUAL.html#pandocs-markdown). It is very simple. See
+BioHackrXiv supports files formatted in [pandoc flavored markdown](https://pandoc.org/MANUAL.html#pandocs-markdown) or text files.
+See the following example files:
+- [Pandoc flavored MD formatted example](https://github.com/biohackrxiv/bhxiv-gen-pdf/blob/master/example/logic/paper.md)
+- [Raw text example](https://raw.githubusercontent.com/biohackrxiv/bhxiv-gen-pdf/master/example/logic/paper.md)
 
-=> https://github.com/biohackrxiv/bhxiv-gen-pdf/blob/master/example/logic/paper.md
+LaTex can also be embedded into the Pandoc flavored MD files.
 
-and the raw text version
+To start, you could use the [template files in our repository](https://github.com/biohackrxiv/bhxiv-gen-pdf/blob/master/example/logic/)
+**IMPORTANT:** Do not modify the file names as they are used to generate the final paper.
+We suggest that you copy and edit these files in your own git repository.
 
-=> https://raw.githubusercontent.com/biohackrxiv/bhxiv-gen-pdf/master/example/logic/paper.md
+Once you are done editing you generate the PDF using [BioHackrXiv's web-based PDF generator](preview.biohackrxiv.org)
+You can eaither paste the URL to your repository, or upload an acrhive containing the edited template files.
 
-It *can* embed LaTeX because pandoc generates LaTeX from markdown as an intermediate step towards generating the final PDF.
+**IMPORTANT**: If you want to use the URL to your repository, only pasted the base URL. The web-tool will automatically detect the paper.md file.
 
-The easiest start is to take the files in ./example/doc and modify them. Don't change the file names as they are used to generate the final paper. In fact, you can copy these files into your own git repo and continue from there.
+1. If you want to use the URL to your repository, only paste the base URL.
+2. Each repo must contain a single `paper.md` file.
+3. For biohackathons you edit our [citation template file](https://github.com/biohackrxiv/publication-template) and add it to your repository
 
-We have a web interface that allows you to generate the PDF at
+# Deploy the web-tool using docker
 
-=> http://preview.biohackrxiv.org/
-
-Paste in the base URL for your repo and the tool will find the paper.md.
-
-Notes:
-
-1. Do not paste the path to the paper itself - only the base repo URL.
-2. One repo can not contain multiple paper.md's. It will pick the first one it finds.
-3. For biohackathons it pays to add a template repo people can template from, e.g
-
-=> https://github.com/biohackrxiv/publication-template
-
-# Introduction
-
-
-Here you find the required steps to run to code on your own. There is also a [dockerized version](#run-via-docker).
+There is also a [dockerized version](#run-via-docker).
 
 If you find any bugs, please propose improvements via PRs. Thanks!
 
-# Prerequisites
+## Setup
 
-- ruby
-- pandoc
-- pandoc-citeproc
-- pdflatex
-- biblatex
-
+1. Install the following packages:
+  - ruby
+  - pandoc
+  - pandoc-citeproc
+  - pdflatex
+  - biblatex
+2. Clone this git repository
 Confirmed versions of the library can be found in [Dockerfile](https://github.com/biohackrxiv/bhxiv-gen-pdf/blob/master/docker/Dockerfile)
 
-See also the Guix [script](.guix-deploy) for current dependencies.
+For more information see also the Guix [script](.guix-deploy) for current dependencies.
 
-# Install
-
-Clone this git repository and install the prerequisites listed above
-
-# Run
+## Run
 
 Generate the PDF with
 
