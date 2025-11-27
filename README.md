@@ -146,6 +146,19 @@ If you are not using Docker or Guix you may need to explicitely add ruby
 
 ## Next generate default example
 
+    ruby ./bin/gen-pdf --debug ./example/logic Japan2019
+    ls -l example/logic/paper.pdf
+
+and for debugging tex output:
+
+    ruby ./bin/gen-pdf --debug ./example/logic Japan2019 output.tex
+    ls -l example/logic/output.tex
+    cd example/logic
+    lualatex output.tex
+    biber output.tex
+
+Note that the svg figure may complain. Just hit enter.
+
     ruby ./bin/gen-pdf ./example/logic
     ls -l example/logic/paper.pdf
 
@@ -164,7 +177,7 @@ Note that the svg figure may complain. Just hit enter.
 Clone your repo in to a visible path and
 
     git clone my-repo.git
-    ruby ./bin/gen-pdf my-repo-path/paper
+    ruby ./bin/gen-pdf --debug my-repo-path/paper Japan2019
 
 If you get pandoc errors, such as `Unknown option --citeproc` you'll need a plugin.
 Try the Guix container described above.
