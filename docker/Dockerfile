@@ -1,20 +1,24 @@
-FROM ruby:3.0.2
+FROM ruby:3.3-bookworm
 
-ENV PANDOC_VERSION="2.16.1"
+ENV PANDOC_VERSION="3.6.4"
 
-RUN wget --output-document="/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" && \
-    tar xf "pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz" && \
-    ln -s "/pandoc-${PANDOC_VERSION}/bin/pandoc" "/usr/local/bin"
+RUN arch=$(dpkg --print-architecture) && \
+    wget --output-document="/pandoc-${PANDOC_VERSION}-linux-${arch}.tar.gz" \
+      "https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-${arch}.tar.gz" && \
+    tar xf "/pandoc-${PANDOC_VERSION}-linux-${arch}.tar.gz" && \
+    ln -s "/pandoc-${PANDOC_VERSION}/bin/pandoc" "/usr/local/bin/pandoc"
 
-RUN apt update -y && apt install -y \
-    librsvg2-bin=2.50.3+dfsg-1+deb11u1 \
-    texlive-bibtex-extra=2020.20210202-3 \
-    texlive-latex-base=2020.20210202-3 \
-    texlive-latex-extra=2020.20210202-3 \
-    texlive-fonts-extra=2020.20210202-3
+RUN apt-get update -y && apt-get install -y --no-install-recommends \
+    librsvg2-bin \
+    texlive-bibtex-extra \
+    texlive-latex-base \
+    texlive-latex-extra \
+    texlive-fonts-extra \
+    && rm -rf /var/lib/apt/lists/*
 
 ADD ./bin /gen-pdf/bin
 ADD ./lib /gen-pdf/lib
 ADD ./resources /gen-pdf/resources
-ENV PATH /gen-pdf/bin:$PATH
-CMD ["bash"]
+ENV PATH="/gen-pdf/bin:$PATH"
+WORKDIR /work
+ENTRYPOINT ["gen-pdf"]
