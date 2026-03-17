@@ -354,6 +354,7 @@ $endif$
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 % Pandoc 3.x image scaling support
+\makeatletter
 \newsavebox\pandoc@box
 \newcommand*\pandocbounded[1]{%
   \sbox\pandoc@box{#1}%
@@ -364,6 +365,7 @@ $endif$
   \else\usebox{\pandoc@box}%
   \fi%
 }
+\makeatother
 $if(numbersections)$
 \setcounter{secnumdepth}{5}
 $else$
