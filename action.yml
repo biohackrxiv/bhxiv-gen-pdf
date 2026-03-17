@@ -1,0 +1,26 @@
+name: 'BioHackrXiv PDF Generator'
+description: 'Generate a PDF from a BioHackrXiv paper.md and paper.bib'
+branding:
+  icon: 'file-text'
+  color: 'blue'
+
+inputs:
+  paper_dir:
+    description: 'Directory containing paper.md and paper.bib'
+    required: false
+    default: 'paper'
+  output:
+    description: 'Output PDF filename (relative to paper_dir)'
+    required: false
+    default: 'paper.pdf'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Generate PDF
+      shell: bash
+      run: |
+        docker run --rm \
+          -v "${{ github.workspace }}:/work" \
+          ghcr.io/biohackrxiv/bhxiv-gen-pdf:master \
+          "${{ inputs.paper_dir }}" "${{ inputs.output }}"
