@@ -10,10 +10,12 @@ RUN arch=$(dpkg --print-architecture) && \
 
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
     librsvg2-bin \
+    lmodern \
     texlive-bibtex-extra \
     texlive-latex-base \
     texlive-latex-extra \
     texlive-fonts-extra \
+    texlive-latex-recommended \
     && rm -rf /var/lib/apt/lists/*
 
 ADD ./bin /gen-pdf/bin
