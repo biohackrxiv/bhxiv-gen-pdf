@@ -336,6 +336,8 @@ $endif$
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+% Pandoc 3.x image scaling support
+\providecommand{\pandocbounded}[1]{#1}
 $if(numbersections)$
 \setcounter{secnumdepth}{5}
 $else$
