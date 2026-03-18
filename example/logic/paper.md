@@ -73,7 +73,7 @@ pasting above link (or yours) in
 
 # Introduction
 
-As part of the one week Biohackathion 2019 in Fukuoka Japan, we formed
+As part of the one week Biohackathion 2019 in Fukuoka (福岡) Japan, we formed
 a working group on logic programming for the biomedical sciences.
 Logic programming is understood by many bioinformaticians when it is
 presented in the form of relational SQL queries or SPARQL

@@ -18,7 +18,12 @@
 \usepackage{ifxetex,ifluatex}
 \usepackage{seqsplit}
 \usepackage{xstring}
-\usepackage[T1]{fontenc}
+\usepackage{ifluatex}
+\ifluatex
+  \usepackage{fontspec}
+\else
+  \usepackage[T1]{fontenc}
+\fi
 \usepackage{lmodern}
 \usepackage{colortbl}
 \usepackage{tabularx}
@@ -233,6 +238,13 @@
     \usepackage{fontspec}
   \fi
   \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  % CJK and extended Unicode support via Noto fonts
+  \usepackage{luaotfload}
+  \directlua{luaotfload.add_fallback("cjkfallback",
+    {"NotoSansCJKsc:style=Regular;","NotoSerifCJKsc:style=Regular;"}
+  )}
+  \setmainfont{lmroman10-regular.otf}[RawFeature={fallback=cjkfallback}]
+  \setsansfont{lmsans10-regular.otf}[RawFeature={fallback=cjkfallback}]
 
 \fi
 % use upquote if available, for straight quotes in verbatim environments

@@ -103,6 +103,7 @@ cmd = <<~COMMAND
       -V geometry:margin=1in
       --from markdown+autolink_bare_uris
       --template '#{TEX}'
+      --pdf-engine=lualatex
       --csl=#{CSL}
       --lua-filter='#{EXTRACT_CITO}'
       #{paperbib ? "--citeproc" : ""}

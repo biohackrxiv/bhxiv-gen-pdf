@@ -16,6 +16,8 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     texlive-latex-extra \
     texlive-fonts-extra \
     texlive-latex-recommended \
+    texlive-luatex \
+    fonts-noto-cjk \
     && rm -rf /var/lib/apt/lists/*
 
 ADD ./bin /gen-pdf/bin
