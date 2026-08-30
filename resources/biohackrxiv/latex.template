@@ -523,12 +523,13 @@ $if(biblatex)$
 $endif$
 
 $if(authors)$
-\subsection*{Author contributions}
-  $for(authors)$
-  $if(authors.role)$
-    $authors.name$:\,$authors.role$
-  $endif$
-  $endfor$
+\makeatletter
+\newcommand{\authorcontribheading}{%
+  \subsection*{Author contributions}%
+  \global\let\authorcontribheading\@empty
+}
+\makeatother
+$for(authors)$$if(authors.role)$\authorcontribheading\noindent $authors.name$:\,$authors.role$\par$endif$$endfor$
 $endif$
 
 $for(include-after)$
