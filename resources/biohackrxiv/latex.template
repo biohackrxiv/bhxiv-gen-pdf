@@ -521,9 +521,6 @@ $if(biblatex)$
 \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 
 $endif$
-$for(include-after)$
-$include-after$
-$endfor$
 
 $if(authors)$
 \subsection*{Author contributions}
@@ -533,5 +530,9 @@ $if(authors)$
   $endif$
   $endfor$
 $endif$
+
+$for(include-after)$
+$include-after$
+$endfor$
 
 \end{document}
