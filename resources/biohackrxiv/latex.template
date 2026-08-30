@@ -504,6 +504,16 @@ $if(lof)$
 $endif$
 $body$
 
+$if(authors)$
+\makeatletter
+\newcommand{\authorcontribheading}{%
+  \subsection*{Author contributions}%
+  \global\let\authorcontribheading\@empty
+}
+\makeatother
+$for(authors)$$if(authors.role)$\authorcontribheading\noindent $authors.name$:\,$authors.role$\par$endif$$endfor$
+$endif$
+
 $if(natbib)$
 $if(bibliography)$
 $if(biblio-title)$
@@ -521,17 +531,6 @@ $if(biblatex)$
 \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 
 $endif$
-
-$if(authors)$
-\makeatletter
-\newcommand{\authorcontribheading}{%
-  \subsection*{Author contributions}%
-  \global\let\authorcontribheading\@empty
-}
-\makeatother
-$for(authors)$$if(authors.role)$\authorcontribheading\noindent $authors.name$:\,$authors.role$\par$endif$$endfor$
-$endif$
-
 $for(include-after)$
 $include-after$
 $endfor$
