@@ -527,9 +527,12 @@ $if(authors)$
 \newcommand{\authorcontribheading}{%
   \subsection*{Author contributions}%
   \global\let\authorcontribheading\@empty
+  \global\def\authorcontribend{.}%
 }
+\newcommand{\authorcontribsep}{\global\def\authorcontribsep{;\space}}
+\newcommand{\authorcontribend}{}
 \makeatother
-$for(authors)$$if(authors.role)$\authorcontribheading\noindent $authors.name$:\,$authors.role$\par$endif$$endfor$
+$for(authors)$$if(authors.role)$\authorcontribheading\authorcontribsep $authors.name$:\,$authors.role$$endif$$endfor$\authorcontribend
 $endif$
 
 $for(include-after)$
