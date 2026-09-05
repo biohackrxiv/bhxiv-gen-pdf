@@ -9,6 +9,7 @@ RUN arch=$(dpkg --print-architecture) && \
     ln -s "/pandoc-${PANDOC_VERSION}/bin/pandoc" "/usr/local/bin/pandoc"
 
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
+    biber \
     librsvg2-bin \
     lmodern \
     texlive-bibtex-extra \
