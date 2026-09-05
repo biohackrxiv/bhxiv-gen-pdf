@@ -59,6 +59,10 @@
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 \newcommand{\citeproctext}{}
+\makeatletter
+% avoid brackets around text for \bibitem labels (pandoc 3.x citeproc output)
+\def\@biblabel#1{}
+\makeatother
 
 \usepackage{fixltx2e} % provides \textsubscript
 \usepackage[
