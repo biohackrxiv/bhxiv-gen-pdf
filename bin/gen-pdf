@@ -81,13 +81,26 @@ JOURNAL = 'biohackrxiv'
 JOURNAL_NAME = 'BioHackrXiv.org'
 JOURNAL_URL = 'https://biohackrxiv.org/'
 TEX = File.join(resources, "latex.template")
-CSL = File.join(resources, "apa-new.csl")
 EXTRACT_CITO = File.join(resources, "filters", "extract-cito.lua")
-INSERT_CITO = File.join(resources, "filters", "insert-cito-in-ref.lua")
+CITO_TO_BIBLATEX = File.join(resources, "filters", "cito-to-biblatex.lua")
+STRIP_TRAILING_REFERENCES = File.join(resources, "filters", "strip-trailing-references-heading.lua")
+SVG_TO_PDF = File.join(resources, "filters", "svg-to-pdf.lua")
 JOURNAL_LOGO = File.join(resources, "logo.png")
 
 time = Time.new
 date = time.strftime("%d %b %Y")
+
+# With --biblatex, pandoc emits plain \cite{key} and leaves the actual
+# bibliography rendering (\printbibliography, driven by latex.template) to
+# biblatex/biber at LaTeX-compile time - this is what lets the template
+# place "Author contributions" before References. Unlike the --citeproc
+# pipeline this replaces, pandoc's own PDF pipeline cannot drive this: it
+# reruns the LaTeX engine but never invokes biber, so pandoc is only asked
+# to produce the intermediate .tex file here, and biber/lualatex are run
+# by hand below (the same sequence as tmp-info/template's Makefiles).
+want_tex_only = File.extname(outfn) == ".tex"
+texfn = want_tex_only ? outfn : "#{File.basename(outfn, File.extname(outfn))}.tex"
+pdffn = "#{File.basename(texfn, '.tex')}.pdf"
 
 cmd = <<~COMMAND
       #{is_debug ? "--verbose" : ""}
@@ -104,31 +117,54 @@ cmd = <<~COMMAND
       --from markdown+autolink_bare_uris
       --template '#{TEX}'
       --pdf-engine=lualatex
-      --csl=#{CSL}
+      --biblatex
+      --lua-filter='#{STRIP_TRAILING_REFERENCES}'
+      --lua-filter='#{SVG_TO_PDF}'
       --lua-filter='#{EXTRACT_CITO}'
-      #{paperbib ? "--citeproc" : ""}
-      --lua-filter='#{INSERT_CITO}'
+      --lua-filter='#{CITO_TO_BIBLATEX}'
       -s
-      --output='#{outfn}'
+      --output='#{texfn}'
       paper.md
 COMMAND
-
 
 # Build pandoc command
 cmd2 = 'pandoc ' + cmd.split(/\s*\n\s*/).join(" ")
 
+def run_step(description, cmd, is_debug)
+  puts "Executing: #{cmd}" if is_debug
+  output = `#{cmd} 2>&1`
+  print output if is_debug
+  unless $?.success?
+    $stderr.puts output unless is_debug
+    $stderr.puts "Failed: #{description}"
+    exit(2)
+  end
+end
+
 print "Changing to directory #{dir}\n"
 Dir.chdir(dir) do
-  if is_debug
-    puts "Executing: #{cmd2}"
+  run_step("pandoc", cmd2, is_debug)
+  unless File.exist?(texfn)
+    $stderr.puts "Failed to generate #{texfn}!"
+    exit(2)
   end
-  print `#{cmd2}`
-  if File.exist?(outfn)
+
+  if want_tex_only
     puts "Generated #{outfn}!"
   else
-    # Check if file was created with absolute path
-    outfn_absolute = File.join(Dir.pwd, outfn)
-    if File.exist?(outfn_absolute)
+    jobname = File.basename(texfn, ".tex")
+    latexcmd = "lualatex -interaction=nonstopmode -halt-on-error '#{texfn}'"
+    run_step("lualatex (pass 1)", latexcmd, is_debug)
+    run_step("biber", "biber '#{jobname}'", is_debug)
+    run_step("lualatex (pass 2)", latexcmd, is_debug)
+    run_step("lualatex (pass 3)", latexcmd, is_debug)
+
+    if File.exist?(pdffn)
+      FileUtils.mv(pdffn, outfn) unless File.expand_path(pdffn) == File.expand_path(outfn)
+      FileUtils.rm_f(texfn)
+      %w[.aux .bbl .bcf .blg .log .out .run.xml .toc].each do |ext|
+        FileUtils.rm_f(jobname + ext)
+      end
       puts "Generated #{outfn}!"
     else
       $stderr.puts "Failed to generate #{outfn}!"
