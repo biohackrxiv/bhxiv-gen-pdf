@@ -243,8 +243,8 @@
   \directlua{luaotfload.add_fallback("cjkfallback",
     {"NotoSansCJKsc:style=Regular;","NotoSerifCJKsc:style=Regular;"}
   )}
-  \setmainfont{lmroman10-regular.otf}[RawFeature={fallback=cjkfallback}]
-  \setsansfont{lmsans10-regular.otf}[RawFeature={fallback=cjkfallback}]
+  \setmainfont{Latin Modern Roman}[RawFeature={fallback=cjkfallback}]
+  \setsansfont{Latin Modern Sans}[RawFeature={fallback=cjkfallback}]
 
 \fi
 % use upquote if available, for straight quotes in verbatim environments
