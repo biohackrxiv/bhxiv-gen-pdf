@@ -504,6 +504,19 @@ $if(lof)$
 $endif$
 $body$
 
+$if(authors)$
+\makeatletter
+\newcommand{\authorcontribheading}{%
+  \subsection*{Author contributions}%
+  \global\let\authorcontribheading\@empty
+  \global\def\authorcontribend{.}%
+}
+\newcommand{\authorcontribsep}{\global\def\authorcontribsep{;\space}}
+\newcommand{\authorcontribend}{}
+\makeatother
+$for(authors)$$if(authors.role)$\authorcontribheading\authorcontribsep $authors.name$:\,$authors.role$$endif$$endfor$\authorcontribend
+$endif$
+
 $if(natbib)$
 $if(bibliography)$
 $if(biblio-title)$
@@ -520,19 +533,6 @@ $endif$
 $if(biblatex)$
 \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 
-$endif$
-
-$if(authors)$
-\makeatletter
-\newcommand{\authorcontribheading}{%
-  \subsection*{Author contributions}%
-  \global\let\authorcontribheading\@empty
-  \global\def\authorcontribend{.}%
-}
-\newcommand{\authorcontribsep}{\global\def\authorcontribsep{;\space}}
-\newcommand{\authorcontribend}{}
-\makeatother
-$for(authors)$$if(authors.role)$\authorcontribheading\authorcontribsep $authors.name$:\,$authors.role$$endif$$endfor$\authorcontribend
 $endif$
 
 $for(include-after)$
