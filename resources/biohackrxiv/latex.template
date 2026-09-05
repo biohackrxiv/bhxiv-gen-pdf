@@ -1,5 +1,6 @@
 \documentclass[10pt,a4paper,onecolumn]{article}
 \usepackage{marginnote}
+\usepackage{zref-savepos}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{authblk,etoolbox}
@@ -167,7 +168,7 @@
 % patch the patch by authblk so that the author block is flush left
 \def\maketitle{{%
   \renewenvironment{tabular}[2][]
-    {\begin{flushleft}}
+    {\zsavepos{authortop}\begin{flushleft}}
     {\end{flushleft}}
   \AB@maketitle}}
 \makeatletter
@@ -431,6 +432,7 @@ $if(title)$
 \maketitle
 $endif$
 
+\zsavepos{marginnoteanchor}
 \marginnote{
 
    \begin{flushleft}
@@ -473,7 +475,7 @@ $endif$
   \end{flushleft}
   \sffamily\small
 
-}[-1.5in]
+}[\dimexpr(\zposy{marginnoteanchor}sp-\zposy{authortop}sp)\relax]
 
 
 $if(abstract)$
