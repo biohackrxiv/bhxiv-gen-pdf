@@ -26,4 +26,4 @@ ADD ./lib /gen-pdf/lib
 ADD ./resources /gen-pdf/resources
 ENV PATH="/gen-pdf/bin:$PATH"
 WORKDIR /work
-ENTRYPOINT ["gen-pdf"]
+CMD ["bash"]
