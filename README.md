@@ -77,9 +77,18 @@ to specify a custom output filename.
 Build docker container and run
 
     docker build -t biohackrxiv/gen-pdf:local -f docker/Dockerfile .
-    docker run --rm -it -v $(pwd):/work -w /work biohackrxiv/gen-pdf:local /work/example/logic
+    docker run --rm -it -v $(pwd):/work -w /work biohackrxiv/gen-pdf:local gen-pdf /work/example/logic
 
 Note that the current working directory of host machine is mounted on `/work` inside the container
+
+By default it saves the resulting PDF as `paper.pdf`. To save the PDF under a different file name,
+add that as additional parameter:
+
+    docker run --rm -it -v $(pwd):/work -w /work biohackrxiv/gen-pdf:local gen-pdf /work/example/logic foo.pdf
+
+If the paper does not compile, consider adding the `--debug` option to get additional feedback:
+
+    docker run --rm -it -v $(pwd):/work -w /work biohackrxiv/gen-pdf:local gen-pdf --debug /work/example/logic
 
 # Run via GNU Guix
 
