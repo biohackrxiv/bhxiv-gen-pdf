@@ -42,6 +42,7 @@ If you find any bugs, please propose improvements via PRs. Thanks!
   - pandoc-citeproc
   - pdflatex
   - biblatex
+  - biber
 2. Clone this git repository
 Confirmed versions of the library can be found in [Dockerfile](https://github.com/biohackrxiv/bhxiv-gen-pdf/blob/master/docker/Dockerfile)
 
@@ -76,7 +77,7 @@ to specify a custom output filename.
 Build docker container and run
 
     docker build -t biohackrxiv/gen-pdf:local -f docker/Dockerfile .
-    docker run --rm -it -v $(pwd):/work -w /work biohackrxiv/gen-pdf:local gen-pdf /work/example/logic
+    docker run --rm -it -v $(pwd):/work -w /work biohackrxiv/gen-pdf:local /work/example/logic
 
 Note that the current working directory of host machine is mounted on `/work` inside the container
 
