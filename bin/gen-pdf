@@ -85,6 +85,7 @@ EXTRACT_CITO = File.join(resources, "filters", "extract-cito.lua")
 CITO_TO_BIBLATEX = File.join(resources, "filters", "cito-to-biblatex.lua")
 STRIP_TRAILING_REFERENCES = File.join(resources, "filters", "strip-trailing-references-heading.lua")
 SVG_TO_PDF = File.join(resources, "filters", "svg-to-pdf.lua")
+MERMAID_TO_PDF = File.join(resources, "filters", "mermaid-to-pdf.lua")
 JOURNAL_LOGO = File.join(resources, "logo.png")
 
 time = Time.new
@@ -119,6 +120,7 @@ cmd = <<~COMMAND
       --pdf-engine=lualatex
       --biblatex
       --lua-filter='#{STRIP_TRAILING_REFERENCES}'
+      --lua-filter='#{MERMAID_TO_PDF}'
       --lua-filter='#{SVG_TO_PDF}'
       --lua-filter='#{EXTRACT_CITO}'
       --lua-filter='#{CITO_TO_BIBLATEX}'

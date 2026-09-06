@@ -311,6 +311,4 @@ graph TD;
     C-->D;
 ```
 
-Unfortunately it does not work without the mermaid plugin and that requires headless chrome(?!). If you run the command line version of `gen-pdf` it may be possible to get it to work with the right packages. Please tell us if you succeed.
-
 ## References
