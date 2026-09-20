@@ -39,6 +39,30 @@ def md_meta_checker(meta)
   meta
 end
 
+# A colon separates CiTO intentions from the citation key, as in
+# [@usesMethodIn:Smith2020], so a key that contains one cannot be read
+# unambiguously: "Smith:2020" is indistinguishable from the intention "Smith"
+# applied to the key "2020". Left alone this fails silently -- biber resolves
+# nothing, the bibliography is dropped from the PDF, and each citation prints
+# its raw key -- so reject such keys up front instead.
+def bib_key_checker(filename)
+  return filename unless File.exist?(filename)
+
+  offenders = []
+  File.foreach(filename) do |line|
+    m = line.match(/\A\s*@\w+\s*\{\s*([^,\s]+)\s*,/)
+    offenders << m[1] if m && m[1].include?(":")
+  end
+  return filename if offenders.empty?
+
+  renames = offenders.map { |key| "  #{key} -> #{key.delete(":")}" }.join("\n")
+  raise MarkdownError,
+        "citation keys may not contain a colon, because a colon separates CiTO " \
+        "intentions from the citation key (as in [@usesMethodIn:Smith2020]). " \
+        "Rename the following keys in #{filename}, and in the citations that " \
+        "use them:\n#{renames}"
+end
+
 def md_checker(filename)
   header = md_parser(filename)
   md_meta_checker(header)
