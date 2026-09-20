@@ -61,6 +61,7 @@ unless File.exist?(paperbib)
   $stderr.puts "WARNING: Cannot find bibtex file #{paperbib}, creating empty file"
   `touch #{paperbib}`
 end
+bib_key_checker(paperbib)
 
 rootdir = File.expand_path(File.dirname(File.dirname(__FILE__)))
 resources = File.join(rootdir, "resources", "biohackrxiv")
